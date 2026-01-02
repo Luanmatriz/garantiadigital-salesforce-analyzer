@@ -1,28 +1,24 @@
-from simple_salesforce import Salesforce
-from dotenv import load_dotenv
 import os
+from simple_salesforce import Salesforce
 
-load_dotenv()
+class SalesforceAuth:
+    """
+    Responsável por autenticar no Salesforce usando variáveis de ambiente.
+    """
 
-class Auth:
     def __init__(self):
-        self.users = {}  # A simple dictionary to store user credentials
+        self.username = os.getenv("SF_USERNAME")
+        self.password = os.getenv("SF_PASSWORD")
+        self.security_token = os.getenv("SF_SECURITY_TOKEN")
+        self.domain = os.getenv("SF_DOMAIN", "login")
 
-    def register(self, username, password):
-        if username in self.users:
-            return False  # User already exists
-        self.users[username] = password
-        return True  # Registration successful
+    def connect(self):
+        if not all([self.username, self.password, self.security_token]):
+            raise ValueError("Credenciais do Salesforce não configuradas corretamente.")
 
-    def login(self, username, password):
-        if username in self.users and self.users[username] == password:
-            return True  # Login successful
-        return False  # Invalid credentials
-
-    def logout(self):
-        # Logic for logout can be implemented here
-        pass
-
-def validate_credentials(username, password):
-    # Simple validation logic
-    return isinstance(username, str) and isinstance(password, str) and len(password) > 0
+        return Salesforce(
+            username=self.username,
+            password=self.password,
+            security_token=self.security_token,
+            domain=self.domain
+        )
