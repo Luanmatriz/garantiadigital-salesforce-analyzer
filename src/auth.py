@@ -1,3 +1,9 @@
+from simple_salesforce import Salesforce
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 class Auth:
     def __init__(self):
         self.users = {}  # A simple dictionary to store user credentials

@@ -1,54 +1,122 @@
-# My Python Project
+```md
+# Garantia Digital – Salesforce Analyzer
 
-This project is a simple authentication system implemented in Python. It includes functionalities for user login and logout, and serves as a foundational structure for building more complex applications.
+Projeto em Python para conectar em uma org Salesforce, extrair registros do objeto personalizado **Garantia__c**, aplicar regras de negócio e exportar os dados para um arquivo CSV.
 
-## Project Structure
+Este projeto simula um cenário real de integração e análise de dados, muito comum em contextos de automação, relatórios e apoio a decisões de negócio.
+
+---
+
+## 📂 Estrutura do Projeto
 
 ```
-my-python-project
+
+garantiadigital-salesforce-analyzer
 ├── src
-│   ├── auth.py        # Contains authentication-related functions and classes
-│   └── main.py        # Entry point of the application
-├── requirements.txt    # Lists project dependencies
-├── .env.example        # Example environment variables
-├── .gitignore          # Specifies files to be ignored by Git
-└── README.md           # Project documentation
-```
+│   ├── auth.py        # Responsável pela autenticação no Salesforce
+│   └── main.py        # Script principal (consulta, regra de negócio e exportação)
+├── reports
+│   └── garantias.csv  # Arquivo CSV gerado automaticamente
+├── requirements.txt   # Dependências do projeto
+├── .env.example       # Exemplo de variáveis de ambiente
+├── .gitignore         # Arquivos ignorados pelo Git
+└── README.md          # Documentação do projeto
 
-## Installation
+````
 
-To set up the project, follow these steps:
+---
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd my-python-project
-   ```
+## ⚙️ Pré-requisitos
 
-2. Create a virtual environment (optional but recommended):
-   ```
+- Python 3.9+
+- Acesso a uma org Salesforce (Sandbox ou Produção)
+- Objeto personalizado **Garantia__c** configurado na org
+- Campos utilizados:
+  - `Name`
+  - `Status_da_garantia__c`
+  - `Data_de_emissao__c`
+  - `Data_de_vencimento__c`
+  - Relacionamento com `Servico__c` (`Servico__r.Name`)
+
+---
+
+## 🚀 Instalação
+
+1. Clone o repositório:
+   ```bash
+   git clone <url-do-repositorio>
+   cd garantiadigital-salesforce-analyzer
+````
+
+2. (Opcional, recomendado) Crie um ambiente virtual:
+
+   ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate   # Linux / macOS
+   venv\Scripts\activate      # Windows
    ```
 
-3. Install the required dependencies:
-   ```
+3. Instale as dependências:
+
+   ```bash
    pip install -r requirements.txt
    ```
 
-4. Set up your environment variables by copying `.env.example` to `.env` and filling in the necessary values.
+4. Configure as variáveis de ambiente:
 
-## Usage
+   ```bash
+   cp .env.example .env
+   ```
 
-To run the application, execute the following command:
-```
+   Preencha o arquivo `.env` com suas credenciais do Salesforce.
+
+---
+
+## ▶️ Como Executar
+
+Execute o script principal:
+
+```bash
 python src/main.py
 ```
 
-## Contributing
+Ao final da execução, o arquivo abaixo será gerado automaticamente:
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or features you would like to add.
+```
+reports/garantias.csv
+```
 
-## License
+---
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+## 📊 Regras de Negócio
+
+* A garantia é classificada como **ACTIVE** quando a data de vencimento é igual ou maior que a data atual.
+* A garantia é classificada como **EXPIRED** quando a data de vencimento é anterior à data atual.
+* Caso a data de vencimento esteja vazia ou inválida, o status será **UNKNOWN**.
+
+---
+
+## 🧠 Tecnologias Utilizadas
+
+* Python
+* simple-salesforce
+* python-dotenv
+* Salesforce SOQL
+* CSV para exportação de dados
+
+---
+
+## 📌 Objetivo do Projeto
+
+* Demonstrar integração com Salesforce via API
+* Aplicar regras de negócio fora da plataforma
+* Automatizar extração e geração de relatórios
+* Servir como projeto de portfólio técnico
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT.
+
+```
